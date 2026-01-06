@@ -7,7 +7,7 @@ A Go SDK for the TCGDex API.
 [![GitHub license](https://img.shields.io/github/license/laiambryant/tcgdex.svg)](https://github.com/laiambryant/tcgdex/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/laiambryant/tcgdex.svg)](https://github.com/laiambryant/tcgdex/issues)
 [![GitHub stars](https://img.shields.io/github/stars/laiambryant/tcgdex.svg)](https://github.com/laiambryant/tcgdex/stargazers)
-[![Coverage Status](https://coveralls.io/repos/github/laiambryant/tcgdex/badge.svg?branch=main)](https://coveralls.io/github/laiambryant/tcgdex?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/laiambryant/tcgdex/badge.svg)](https://coveralls.io/github/laiambryant/tcgdex)
 
 ## Installation
 
