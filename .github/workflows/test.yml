@@ -13,12 +13,12 @@ jobs:
     container:
       image: golang:1.23-alpine
     steps:
-    - name: Install build dependencies
-      run: apk add --no-cache git build-base
-    - name: Check out code
-      uses: actions/checkout@v3
+    - name: Set up Go
+      uses: actions/setup-go@v2
       with:
-        fetch-depth: 0
+        go-version: '1.23'
+    - name: Check out code
+      uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         go mod download
