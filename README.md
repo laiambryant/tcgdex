@@ -55,6 +55,24 @@ Pass options to [`tcgdex.New`](tcgdex.go):
 
 - [`query.Query`](query/query.go) - Builder for filter and pagination parameters
 
+### Filtering with the Query builder
+
+Use the `query` builder to construct filters, sorting and pagination, then pass the resulting `*query.Query` to an endpoint's `List` method.
+
+#### Example
+
+```go
+q := query.New()
+  .Contains("name", "bob")
+  .Equal("status", "active")
+  .Sort("title", "desc")
+  .Paginate(1, 25)
+
+cards, _ := sdk.Card.List(context.Background(), q)
+```
+
+Passing `nil` as the query will return the unfiltered list.
+
 ### Models
 
 - [`models.Card`](models/card.go) - Card details
