@@ -1,9 +1,11 @@
 package tcgdex
 
 import (
-"github.com/laiambryant/tcgdex/client"
-"github.com/laiambryant/tcgdex/endpoint"
-"github.com/laiambryant/tcgdex/models"
+	"context"
+
+	"github.com/laiambryant/tcgdex/client"
+	"github.com/laiambryant/tcgdex/endpoint"
+	"github.com/laiambryant/tcgdex/models"
 )
 
 type TCGDex struct {
@@ -23,4 +25,9 @@ func New(opts ...client.Option) *TCGDex {
 	sdk.Set = endpoint.New[models.Set, models.SetResume](c, "sets")
 	sdk.Serie = endpoint.New[models.Serie, models.SerieResume](c, "series")
 	return sdk
+}
+
+// GetCardWithPricing is a convenience wrapper that returns a Card with pricing data if available.
+func (t *TCGDex) GetCardWithPricing(ctx context.Context, id string) (models.Card, error) {
+	return t.Card.Get(ctx, id)
 }

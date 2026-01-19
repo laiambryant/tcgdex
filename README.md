@@ -26,6 +26,23 @@ set, err := sdk.Set.List(context.Background(), nil)
 serie, err := sdk.Serie.Get(context.Background(), "swsh")
 ```
 
+### Pricing
+
+Card pricing is embedded in card responses under `pricing`. Use the convenience helper for discoverability:
+
+```go
+card, err := sdk.GetCardWithPricing(context.Background(), "swsh1-1")
+if err != nil {
+  // handle error
+}
+if card.Pricing != nil && card.Pricing.Cardmarket != nil && card.Pricing.Cardmarket.Avg != nil {
+  avg := *card.Pricing.Cardmarket.Avg
+  _ = avg
+}
+```
+
+Pricing updates are provided by the API (e.g., Cardmarket daily, TCGplayer hourly).
+
 ## Configuration
 
 Pass options to [`tcgdex.New`](tcgdex.go):

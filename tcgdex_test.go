@@ -1,6 +1,7 @@
 package tcgdex
 
 import (
+	"context"
 	"net/http"
 	"testing"
 
@@ -46,5 +47,47 @@ func TestNewWithOptionsOverrides(t *testing.T) {
 	}
 	if sdk.Client.HTTP != fake {
 		t.Fatalf("expected provided HTTP client to be used")
+	}
+}
+
+type fakeHTTPPricingClient struct{}
+
+func (f *fakeHTTPPricingClient) Do(req *http.Request) (*http.Response, error) {
+	if req.URL.String() != "http://example/cards/swsh1-1" {
+		return client.NewMockResponse(404, `{"error":"not found"}`), nil
+	}
+	body := `{
+		"id": "swsh1-1",
+		"localId": "1",
+		"name": "Test Card",
+		"pricing": {
+			"cardmarket": {
+				"updated": "2025-08-05T00:42:15.000Z",
+				"unit": "EUR",
+				"avg": 0.08
+			},
+			"tcgplayer": {
+				"updated": "2025-08-05T20:07:54.000Z",
+				"unit": "USD",
+				"normal": {
+					"marketPrice": 0.09
+				}
+			}
+		}
+	}`
+	return client.NewMockResponse(200, body), nil
+}
+
+func TestGetCardWithPricing(t *testing.T) {
+	sdk := New(client.WithBaseURL("http://example"), client.WithHTTPClient(&fakeHTTPPricingClient{}))
+	card, err := sdk.GetCardWithPricing(context.Background(), "swsh1-1")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if card.Pricing == nil || card.Pricing.Cardmarket == nil {
+		t.Fatalf("expected cardmarket pricing to be present")
+	}
+	if card.Pricing.TCGPlayer == nil || card.Pricing.TCGPlayer.Normal == nil {
+		t.Fatalf("expected tcgplayer normal pricing to be present")
 	}
 }

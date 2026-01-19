@@ -24,4 +24,5 @@ type Card struct {
 	RegulationMark *string       `json:"regulationMark,omitempty"`
 	Legal          Legal         `json:"legal"`
 	Boosters       []Booster     `json:"boosters,omitempty"`
+	Pricing        *Pricing      `json:"pricing,omitempty"`
 }
